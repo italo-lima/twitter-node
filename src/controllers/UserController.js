@@ -23,16 +23,17 @@ class UserController {
   async store(req, res){
     const {name, email, password} = req.body;
 
+    try {
+
     const checkEmail = await User.findOne({email})
   
     if(checkEmail){
       return res.status(400).json({error: "E-mail already used"})
     }
     
-    try {
-      const user = await User.create({name, email, password})
+    const {createdAt, updatedAt} = await User.create({name, email, password})
 
-      return res.json(user)
+    return res.json({name, email,createdAt, updatedAt })
 
     } catch {
       return res.status(500).json({error: "Error creating user"})
