@@ -1,6 +1,5 @@
 const Comment = require('../models/Comment')
 const Publication = require('../models/Publication')
-const User = require('../models/User')
 
 class CommentController {
 
@@ -96,12 +95,12 @@ class CommentController {
   async destroy(req, res) {
     const authHeader = req.headers.idUser;
     const {id} = req.params
-
+    
     try {
       const comment = await Comment.findById(id)
-
+      
       if(!comment){
-        return res.status(401).json({err : "Publication not found"})
+        return res.status(401).json({err : "Comment not found"})
       }
 
       if(comment.user_comment != authHeader){
@@ -109,10 +108,11 @@ class CommentController {
       }
 
       await comment.remove()
+      await Publication.updateOne({}, {$pull: {comments: id}})
 
       return res.status(204).send()
-    } catch {
-      return res.status(500).json({err : "Error Deleting Comment or ID invalid"})
+    } catch(e) {
+      return res.status(500).json({err : e})
     }
   }
 }

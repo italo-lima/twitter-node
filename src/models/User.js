@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const authConfig = require('../config/auth')
+const Publication = require('../models/Publication')
+const Comment = require('../models/Comment')
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -33,9 +35,15 @@ UserSchema.pre('save', async function (next) {
 })
 
 UserSchema.pre('remove', async function (next) {
-  const user = this
-  
-  console.log('removed', user._id);
+  const removeId = this._id
+  const pub = await Publication.find({owner_user: removeId})
+  const ids = []
+
+  pub.forEach(({comments}) => comments instanceof Array ? ids.push(...comments) : ids.push(comments))
+  await Publication.deleteMany({owner_user: removeId})
+  await Comment.deleteMany({ 
+    _id : { "$in" : ids}
+  })
 
   next()
 })

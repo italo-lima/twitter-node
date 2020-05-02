@@ -10,12 +10,15 @@ class PublicationController{
         {},
         {},
         { sort: { createdAt: -1 }}
-        )
+        ).populate({
+          path: 'comments',
+          select: 'comment_description'
+        })
 
       return res.json(allPublications)
 
-    } catch(e) {
-      return res.status(500).json({err : e})
+    } catch {
+      return res.status(500).json({err : "Error Listing Publications"})
     }
   }
 
