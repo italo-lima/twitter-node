@@ -7,9 +7,9 @@ class UserController {
     
     try {
       const user = await User.findById(authHeader)
-      
+
       if(!user){
-        return res.status(400).json({error: "User not found"})
+        return res.status(401).json({error: "User not found"})
       }
 
       return res.json(user)
@@ -28,7 +28,7 @@ class UserController {
     const checkEmail = await User.findOne({email})
   
     if(checkEmail){
-      return res.status(400).json({error: "E-mail already used"})
+      return res.status(401).json({error: "E-mail already used"})
     }
     
     const {createdAt, updatedAt} = await User.create({name, email, password})
@@ -49,7 +49,7 @@ class UserController {
       const user = await User.findById(authHeader)
       
       if(!user){
-        return res.status(400).json({error: "User not found"})
+        return res.status(401).json({error: "User not found"})
       }
 
       if(email != user.email){
