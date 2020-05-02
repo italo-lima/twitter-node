@@ -10,31 +10,6 @@
 
 ## Authentication
 
-### Signup:
-
-`POST /users`: cria um novo usuário.
-
-#### Body example:
-
-```
-{
-	"name": "Ítalo Lima",
-	"email": "italo@email.com",
-	"password": "123456"
-}
-```
-
-#### OutPut:
-
-```
-{
-	"name": "Ítalo Lima",
-   	"email": "italo@email.com",
-	"createdAt": "2020-05-02T13:40:36.601Z",
-	"updatedAt": "2020-05-02T13:40:36.601Z"
-}
-```
-
 ### Signin:
 
 `POST /sessions`: login com credenciais válidas.
@@ -48,14 +23,35 @@
 }
 ```
 
-### OutPut
+## User
+
+### Signup:
+
+`POST /users`: cria um novo usuário.
+
+#### Body example:
 
 ```
 {
-  "name": "Ítalo Lima",
-  "email": "italo@email.com",
-  "createdAt": "2020-05-02T13:40:56.601Z",
-  "updatedAt": "2020-05-02T12:37:56.967Z",
-  "token": TokenJWT"
+	"name": "Ítalo Lima",
+	"email": "italo@email.com",
+	"password": "123456"
 }
+```
+#### A execução dos endpoint's a seguir, necessitam de autenticação do usuário
+
+`GET /users`: Retorna informações do usuário autenticado.
+
+`PUT /users`: altera informações do usuário autenticado.
+
+#### Body example:
+
+```
+{
+	"name": "Ítalo",
+	"password": "1234567"
+}
+```
+
+`DELETE /users`: exclui a conta do usuário autenticado.
 ```
