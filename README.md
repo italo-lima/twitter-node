@@ -12,7 +12,7 @@
 
 ### Signin:
 
-`POST /sessions`: login com credenciais válidas.
+`POST /session`: login com credenciais válidas.
 
 #### Body example:
 
@@ -22,6 +22,10 @@
 	"password": "123456"
 }
 ```
+
+## Publications Informations
+
+`GET /publication/all`: retorna todas as publicações, ordenados pela data mais recente.
 
 ## User
 
@@ -38,7 +42,8 @@
 	"password": "123456"
 }
 ```
-#### A execução dos endpoint's a seguir, necessitam de autenticação do usuário
+
+#### :warning: A execução dos endpoints a seguir, necessitam de autenticação do usuário
 
 `GET /users`: Retorna informações do usuário autenticado.
 
@@ -54,4 +59,31 @@
 ```
 
 `DELETE /users`: exclui a conta do usuário autenticado.
+
+## Publication
+
+`POST /publication`: cria uma nova publicação.
+
+#### Body example:
+
 ```
+{
+	"description": "Publicação 1"
+}
+```
+
+`GET /publication`: retorna informações das publicações pertencentes ao usuário autenticado.
+
+`PUT /publication/:id`: altera a informação da publicação desejada, pertencente ao usuário autenticado.
+`id :point_right: identificador da publicação`
+
+#### Body example:
+
+```
+{
+	"description": "Publicação 1 alterada"
+}
+```
+
+`DELETE /publication/:id`: exclui uma publicação desejada, pertencente ao usuário autenticado.
+`id :point_right: identificador da publicação`
