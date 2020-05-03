@@ -10,6 +10,7 @@ mongoose.connect('mongodb://localhost:27017/desafio-sinergia-test', {
 
 afterEach(async () => {
   await User.deleteMany()
+  await mongoose.connection.db.dropDatabase()
 });
 
 beforeEach(async () => {

@@ -1,10 +1,9 @@
 const Publication = require('../models/Publication')
+const ErrorApi = require('../errors')
 
 class PublicationController{
 
   async allPublications(req, res) {
-
-    try {
 
       const allPublications = await Publication.find(
         {},
@@ -16,39 +15,23 @@ class PublicationController{
         })
 
       return res.json(allPublications)
-
-    } catch {
-      return res.status(500).json({err : "Error Listing Publications"})
-    }
   }
 
   async show(req, res) {
     const authHeader = req.headers.idUser
 
-    try {
-
       const publications = await Publication.find({owner_user: authHeader})
 
       return res.json(publications)
-
-    } catch {
-      return res.status(500).json({err : "Error Listing Publication"})
-    }
   }
 
   async store(req, res) {
     const {description} = req.body
     const authHeader = req.headers.idUser
 
-    try {
+    const publication = await Publication.create({description, owner_user: authHeader})
 
-      const publication = await Publication.create({description, owner_user: authHeader})
-
-      return res.json(publication)
-
-    } catch {
-      return res.status(500).json({err : "Error Creating Publication"})
-    }
+    return res.json(publication)
   }
 
   async update(req, res) {
@@ -56,49 +39,41 @@ class PublicationController{
     const {id} = req.params
     const {description} = req.body
 
-    try {
+    const publication = await Publication.findById(id)
 
-      const publication = await Publication.findById(id)
-
-      if(!publication){
-        return res.status(401).json({err : "Publication not found"})
-      }
-
-      if(publication.owner_user != authHeader){
-        return res.status(401).json({err : "You cannot edit other user's posts"})
-      }
-
-      publication.description = description;
-
-      await publication.save();
-
-      return res.json(publication)
-    } catch {
-      return res.status(500).json({err : "Error Listing Publication or ID invalid"})
+    if(!publication){
+      throw new ErrorApi("Publication not found", 404)
     }
+
+    if(publication.owner_user != authHeader){
+      throw new ErrorApi("You cannot edit other user's posts")
+    }
+
+    publication.description = description;
+
+    await publication.save();
+
+    return res.json(publication)
+
   }
 
   async destroy(req, res) {
     const authHeader = req.headers.idUser;
     const {id} = req.params
 
-    try {
-      const publication = await Publication.findById(id)
+    const publication = await Publication.findById(id)
 
-      if(!publication){
-        return res.status(401).json({err : "Publication not found"})
-      }
-
-      if(publication.owner_user != authHeader){
-        return res.status(401).json({err : "You cannot delete other user's posts"})
-      }
-
-      await publication.remove()
-
-      return res.status(204).send()
-    } catch {
-      return res.status(500).json({err : "Error Listing Publication"})
+    if(!publication){
+      throw new ErrorApi("Publication not found", 404)
     }
+
+    if(publication.owner_user != authHeader){
+      throw new ErrorApi("You cannot delete other user's posts")
+    }
+
+    await publication.remove()
+
+    return res.status(204).send()
   }
 }
 

@@ -11,6 +11,7 @@ mongoose.connect('mongodb://localhost:27017/desafio-sinergia-test', {
 
 afterEach(async () => {
   await User.deleteMany()
+  await mongoose.connection.db.dropDatabase()
 });
 
 beforeEach(async () => {
@@ -69,8 +70,6 @@ describe('Authetication', () => {
   })
 
   it('should not be able to acess private routes whihout jwt token', async () => {
-    const user = await factory.create('User')
-
     const response = await request(app)
       .get('/users')
 
@@ -78,8 +77,6 @@ describe('Authetication', () => {
   })
 
   it('should not be able to acess private routes with invalid jwt token', async () => {
-    const user = await factory.create('User')
-
     const response = await request(app)
       .get('/users')
       .set('Authorization', `Bearer 12343421`)
@@ -88,8 +85,7 @@ describe('Authetication', () => {
   })
 
   it('should not be able to create jwt token if user not exists', async () => {
-    const user = await factory.create('User')
-
+    
     const response = await request(app)
       .post('/session')
       .send({

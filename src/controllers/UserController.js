@@ -1,98 +1,81 @@
 const User = require('../models/User')
+const ErrorApi = require('../errors')
 
 class UserController {
 
   async show(req, res){
     const authHeader = req.headers.idUser;
-    
-    try {
       const user = await User.findById(authHeader)
 
       if(!user){
-        return res.status(401).json({error: "User not found"})
+        throw new ErrorApi("User not found", 404)
       }
 
       return res.json(user)
-
-    } catch {
-      return res.status(500).json({error: "Error listing user"})
-    }
-     
   }
 
   async store(req, res){
     const {name, email, password} = req.body;
 
-    try {
 
     const checkEmail = await User.findOne({email})
   
     if(checkEmail){
-      return res.status(401).json({error: "E-mail already used"})
+     throw new ErrorApi("E-mail already used")
     }
     
     const {createdAt, updatedAt} = await User.create({name, email, password})
 
     return res.json({name, email,createdAt, updatedAt })
-
-    } catch {
-      return res.status(500).json({error: "Error creating user"})
-    }
+    
   }
 
   async update(req, res){
     const authHeader = req.headers.idUser;
-    const {email, oldPassword, password} = req.body
-
-    try {
-
+    const {name, email, oldPassword, password} = req.body
       const user = await User.findById(authHeader)
       
       if(!user){
-        return res.status(401).json({error: "User not found"})
+        throw new ErrorApi("User not found", 404)
       }
 
-      if(email != user.email){
+      if(email && (email != user.email)){
         const userExists = await User.findOne({email})
 
         if(userExists){
-            return res.status(401).json({error: "User already exists"})
+          throw new ErrorApi("User already exists")
         }
+
+        user.email = email
       }
 
-      if(oldPassword && password){
+      if(oldPassword){
         if (!(await user.compareHash(oldPassword))) {
-          return res.status(400).json({ error: 'OldPassword incorrect' })
+          throw new ErrorApi('OldPassword incorrect')
         }
 
         user.password = password;
       }
 
+      user.name = name ? name : user.name;
       await user.save()
 
       return res.json(user)
-
-    } catch(e) {
-      
-      return res.status(500).json({error: "Error updating user"})
-    }
   }
 
   async destroy(req,res){
     const authHeader = req.headers.idUser;
 
-    try {
-      const user = await User.findById(authHeader)
+    const user = await User.findById(authHeader)
 
-      await user.remove()
-
-      return res.status(204).send()
-    } catch{
-      return res.status(500).json({error: "Error deleting user"})
+    if(!user){
+      throw new ErrorApi('User not found', 204)
     }
 
-  }
+    await user.remove()
 
+    return res.status(204).send()
+  }
 }
 
 module.exports = new UserController()
