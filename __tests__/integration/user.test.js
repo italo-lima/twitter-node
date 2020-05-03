@@ -23,8 +23,6 @@ beforeEach(async () => {
 describe('User', () => {
 
   it('must not access the route with invalid jwt token GET/users', async () => {
-    const user = await factory.create('User')
-    
     const response = await request(app)
       .get('/users')
       .set('Authorization', `Bearer ${tokenTestInvalid}`)
@@ -33,8 +31,6 @@ describe('User', () => {
   })
 
   it('must not access the route with not exists jwt token GET/users', async () => {
-    const user = await factory.create('User')
-    
     const response = await request(app)
       .get('/users')
 
@@ -42,8 +38,6 @@ describe('User', () => {
   })
 
   it('must not access the route with invalid jwt token PUT/users', async () => {
-    const user = await factory.create('User')
-    
     const response = await request(app)
       .put('/users')
       .set('Authorization', `Bearer ${tokenTestInvalid}`)
@@ -52,8 +46,6 @@ describe('User', () => {
   })
 
   it('must not access the route with not exists jwt token PUT/users', async () => {
-    const user = await factory.create('User')
-    
     const response = await request(app)
       .put('/users')
 
@@ -61,8 +53,6 @@ describe('User', () => {
   })
 
   it('must not access the route with invalid jwt token DELETE/users', async () => {
-    const user = await factory.create('User')
-    
     const response = await request(app)
       .delete('/users')
       .set('Authorization', `Bearer ${tokenTestInvalid}`)
@@ -71,8 +61,6 @@ describe('User', () => {
   })
 
   it('must not access the route with not exists jwt token DELETE/users', async () => {
-    const user = await factory.create('User')
-    
     const response = await request(app)
       .delete('/users')
 
@@ -113,7 +101,7 @@ describe('User', () => {
 
   it('should not be created user with emails equals', async () => {
     const user = await factory.create('User')
-    
+
     const response = await request(app)
     .post('/users')
     .send(
