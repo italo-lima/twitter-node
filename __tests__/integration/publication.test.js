@@ -7,6 +7,7 @@ const User = require('../../src/models/User')
 const factory = require('../factories')
 
 const tokenTestInvalid = 'eyJhbGciOiJIUzxxxxIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYWVmYTM0NGVmOGM0NmRlZDFjY2MzYSIsImlhdCI6MTU4ODUyNTYyMSwiZXhwIjoxNTg4NjEyMDIxfQ.lXVGMRnK9d-OTaI0zNqtkZ7GUiVHPVenyQwXGYwua58'
+const tokenTest = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYWVmYTM0NGVmOGM0NmRlZDFjY2MzYSIsImlhdCI6MTU4ODUyNTYyMSwiZXhwIjoxNTg4NjEyMDIxfQ.lXVGMRnK9d-OTaI0zNqtkZ7GUiVHPVenyQwXGYwua58'
 
 mongoose.connect('mongodb://localhost:27017/desafio-sinergia-test-publication', {
   useNewUrlParser: true
@@ -123,14 +124,74 @@ describe('Publication', () => {
       expect(response.status).toBe(200)
   })
 
-  // it('should not update publication if description empty', async () => {
-  //   const user = await factory.create('User')
+  it('should not found publication', async () => {
+    const user = await factory.create('User')
 
-  //   const response = await request(app)
-  //     .put('/publication/')
-  //     .set('Authorization', `Bearer ${User.generateToken(user)}`)
-  //     .send({})
+    const response = await request(app)
+      .put('/publication/5eac583d2e77ea31f0cc655c')
+      .set('Authorization', `Bearer ${User.generateToken(user)}`)
+      .send({
+        'description': "Publication 1"
+      })
 
-  //     expect(response.status).toBe(200)
-  // })
+      expect(response.status).toBe(404)
+  })
+
+  it('should not update the publication of user._id is different of owner_user', async () => {
+    const user = await factory.create('User')
+    const publication = await factory.create('Publication')
+
+    const response = await request(app)
+      .put(`/publication/${publication._id}`)
+      .set('Authorization', `Bearer ${User.generateToken(user)}`)
+      .send({
+        'description': "Publication 1"
+      })
+
+      expect(response.status).toBe(401)
+  })
+
+  it('should update the publication of user authenticated', async () => {
+    const publication = await factory.create('Publication', {owner_user: '5eaefa344ef8c46ded1ccc3a'})
+
+    const response = await request(app)
+      .put(`/publication/${publication._id}`)
+      .set('Authorization', `Bearer ${tokenTest}`)
+      .send({
+        'description': "Publication Updated 1"
+      })
+
+      expect(response.status).toBe(200)
+  })
+
+  it('should not delete the publication that does not exist', async () => {
+    const user = await factory.create('User')
+
+    const response = await request(app)
+      .delete(`/publication/5eac583d2e77ea31f0cc655c`)
+      .set('Authorization', `Bearer ${User.generateToken(user)}`)
+
+      expect(response.status).toBe(404)
+  })
+
+  it('should not delete the publication of user._id is different of owner_user', async () => {
+    const user = await factory.create('User')
+    const publication = await factory.create('Publication')
+
+    const response = await request(app)
+      .delete(`/publication/${publication._id}`)
+      .set('Authorization', `Bearer ${User.generateToken(user)}`)
+
+      expect(response.status).toBe(401)
+  })
+
+  it('should delete the publication of user authenticated', async () => {
+    const publication = await factory.create('Publication', {owner_user: '5eaefa344ef8c46ded1ccc3a'})
+
+    const response = await request(app)
+      .delete(`/publication/${publication._id}`)
+      .set('Authorization', `Bearer ${tokenTest}`)
+
+      expect(response.status).toBe(204)
+  })
 })

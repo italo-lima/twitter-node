@@ -22,7 +22,7 @@ factory.define(
   Publication,
   {
     description: 'Publication 1',
-    owner_user: null,
+    owner_user: '5eac583d2e77ea31f0cc655c',
     comments: []
   }
 );
