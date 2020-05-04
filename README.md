@@ -1,6 +1,6 @@
 # API DE UM PRODUTO SIMILAR AO TWITTER
 
-:rocket:
+:rocket: API desenvolvida com node + mongoDB + JWT
 
 ## Começando
 
