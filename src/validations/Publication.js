@@ -9,7 +9,7 @@ module.exports = {
   storyAndUpdatePublication: celebrate({
     [Segments.BODY]: Joi.object({
       description: Joi.string().required(),
-      owner_user: Joi.string() //criado para finalidade de teste
+      owner_user: Joi.string(), //criado para finalidade de teste
     }),
     [Segments.HEADERS]: Joi.object({
       idUser: Joi.string().required()

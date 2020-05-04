@@ -69,7 +69,7 @@ class UserController {
     const user = await User.findById(authHeader)
 
     if(!user){
-      throw new ErrorApi('User not found', 204)
+      throw new ErrorApi('User not found', 404)
     }
 
     await user.remove()

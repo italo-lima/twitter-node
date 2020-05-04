@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1588554238151" clover="3.2.0">
-  <project timestamp="1588554238151" name="All files">
-    <metrics statements="253" coveredstatements="253" conditionals="51" coveredconditionals="49" methods="25" coveredmethods="23" elements="329" coveredelements="325" complexity="0" loc="253" ncloc="253" packages="9" files="21" classes="21"/>
+<coverage generated="1588556805237" clover="3.2.0">
+  <project timestamp="1588556805237" name="All files">
+    <metrics statements="253" coveredstatements="253" conditionals="51" coveredconditionals="50" methods="25" coveredmethods="25" elements="329" coveredelements="328" complexity="0" loc="253" ncloc="253" packages="9" files="21" classes="21"/>
     <package name="src">
       <metrics statements="16" coveredstatements="16" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
       <file name="index.js" path="/home/italo/Dev/api-teste-tecnico-sinergia/src/index.js">
@@ -40,9 +40,9 @@
       </file>
     </package>
     <package name="src.controllers">
-      <metrics statements="124" coveredstatements="124" conditionals="42" coveredconditionals="42" methods="16" coveredmethods="15"/>
+      <metrics statements="124" coveredstatements="124" conditionals="42" coveredconditionals="42" methods="16" coveredmethods="16"/>
       <file name="CommentController.js" path="/home/italo/Dev/api-teste-tecnico-sinergia/src/controllers/CommentController.js">
-        <metrics statements="43" coveredstatements="43" conditionals="10" coveredconditionals="10" methods="6" coveredmethods="5"/>
+        <metrics statements="43" coveredstatements="43" conditionals="10" coveredconditionals="10" methods="6" coveredmethods="6"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -169,12 +169,12 @@
         <line num="60" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="61" count="2" type="stmt"/>
         <line num="63" count="2" type="stmt"/>
-        <line num="67" count="2" type="stmt"/>
-        <line num="69" count="2" type="stmt"/>
-        <line num="71" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="67" count="3" type="stmt"/>
+        <line num="69" count="3" type="stmt"/>
+        <line num="71" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="72" count="1" type="stmt"/>
-        <line num="75" count="1" type="stmt"/>
-        <line num="77" count="1" type="stmt"/>
+        <line num="75" count="2" type="stmt"/>
+        <line num="77" count="2" type="stmt"/>
         <line num="81" count="4" type="stmt"/>
       </file>
     </package>
@@ -195,19 +195,19 @@
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
         <line num="5" count="4" type="stmt"/>
-        <line num="6" count="59" type="stmt"/>
-        <line num="8" count="59" type="cond" truecount="2" falsecount="0"/>
+        <line num="6" count="60" type="stmt"/>
+        <line num="8" count="60" type="cond" truecount="2" falsecount="0"/>
         <line num="9" count="13" type="stmt"/>
-        <line num="12" count="46" type="stmt"/>
-        <line num="14" count="46" type="stmt"/>
-        <line num="15" count="46" type="stmt"/>
-        <line num="17" count="33" type="stmt"/>
-        <line num="19" count="33" type="stmt"/>
+        <line num="12" count="47" type="stmt"/>
+        <line num="14" count="47" type="stmt"/>
+        <line num="15" count="47" type="stmt"/>
+        <line num="17" count="34" type="stmt"/>
+        <line num="19" count="34" type="stmt"/>
         <line num="22" count="13" type="stmt"/>
       </file>
     </package>
     <package name="src.models">
-      <metrics statements="34" coveredstatements="34" conditionals="4" coveredconditionals="2" methods="6" coveredmethods="5"/>
+      <metrics statements="34" coveredstatements="34" conditionals="4" coveredconditionals="3" methods="6" coveredmethods="6"/>
       <file name="Comment.js" path="/home/italo/Dev/api-teste-tecnico-sinergia/src/models/Comment.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="5" type="stmt"/>
@@ -225,7 +225,7 @@
         <line num="34" count="5" type="stmt"/>
       </file>
       <file name="User.js" path="/home/italo/Dev/api-teste-tecnico-sinergia/src/models/User.js">
-        <metrics statements="24" coveredstatements="24" conditionals="4" coveredconditionals="2" methods="5" coveredmethods="4"/>
+        <metrics statements="24" coveredstatements="24" conditionals="4" coveredconditionals="3" methods="5" coveredmethods="5"/>
         <line num="1" count="5" type="stmt"/>
         <line num="2" count="5" type="stmt"/>
         <line num="3" count="5" type="stmt"/>
@@ -238,13 +238,13 @@
         <line num="31" count="1" type="stmt"/>
         <line num="34" count="35" type="stmt"/>
         <line num="37" count="5" type="stmt"/>
-        <line num="38" count="1" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
-        <line num="40" count="1" type="stmt"/>
-        <line num="42" count="1" type="cond" truecount="0" falsecount="2"/>
-        <line num="43" count="1" type="stmt"/>
-        <line num="44" count="1" type="stmt"/>
-        <line num="48" count="1" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="40" count="2" type="stmt"/>
+        <line num="42" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
         <line num="51" count="5" type="stmt"/>
         <line num="53" count="5" type="stmt"/>
         <line num="57" count="5" type="stmt"/>

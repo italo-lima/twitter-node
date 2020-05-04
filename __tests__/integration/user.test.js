@@ -181,9 +181,29 @@ describe('User', () => {
       expect(response.status).toBe(401)
   })
 
-  it('should delete user with credentials valid', async () => {
+  it('should delete user (with publisheds) with credentials valid', async () => {
     const user = await factory.create('User')
+    const comment = await factory.create('Comment', {user_comment: user._id})
+    const comment2 = await factory.create('Comment', {user_comment: user._id})
+    const publication = await factory.create('Publication', {
+      owner_user: user._id,
+      comments: [comment._id]
+    })
+    const publication2 = await factory.create('Publication', {
+      owner_user: user._id,
+      comments: [comment._id, comment2._id]
+    })
 
+    const response = await request(app)
+      .delete('/users')
+      .set('Authorization', `Bearer ${User.generateToken(user)}`)
+
+      expect(response.status).toBe(204)
+  })
+
+  it('should delete user (without publications) with credentials valid', async () => {
+    const user = await factory.create('User')
+    
     const response = await request(app)
       .delete('/users')
       .set('Authorization', `Bearer ${User.generateToken(user)}`)
@@ -198,6 +218,6 @@ describe('User', () => {
       .delete('/users')
       .set('Authorization', `Bearer ${tokenTest}`)
 
-      expect(response.status).toBe(204)
+      expect(response.status).toBe(404)
   })
 })

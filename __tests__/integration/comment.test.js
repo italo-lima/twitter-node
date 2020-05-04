@@ -100,11 +100,15 @@ describe('Comemnt', () => {
  })
 
  it('should list all comments for the authenticated user, but from other users posts', async () => {
-  const user = await factory.create('User')
+    const comment = await factory.create('Comment', {user_comment: '5eaefa344ef8c46ded1ccc3a'})
+    const publication = await factory.create('Publication', {
+      owner_user: '5eaefa344ef8c46ded1ccc3b',
+      comments: [comment._id]
+    })
 
-  const response = await request(app)
-    .get('/comment/my-comments')
-    .set('Authorization', `Bearer ${User.generateToken(user)}`)
+    const response = await request(app)
+      .get('/comment/my-comments')
+      .set('Authorization', `Bearer ${tokenTest}`)
 
     expect(response.status).toBe(200)
  })
