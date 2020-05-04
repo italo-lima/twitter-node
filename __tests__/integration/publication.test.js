@@ -55,7 +55,7 @@ describe('Publication', () => {
 
   it('must not access the route with invalid jwt token PUT/publication', async () => {
     const response = await request(app)
-      .put('/publication')
+      .put('/publication/5eac583d2e77ea31f0cc655c')
       .set('Authorization', `Bearer ${tokenTestInvalid}`)
 
     expect(response.status).toBe(401)
@@ -63,14 +63,14 @@ describe('Publication', () => {
 
   it('must not access the route with not exists jwt token PUT/publication', async () => {
     const response = await request(app)
-      .put('/publication')
+      .put('/publication/5eac583d2e77ea31f0cc655c')
 
     expect(response.status).toBe(401)
   })
 
   it('must not access the route with invalid jwt token DELETE/publication', async () => {
     const response = await request(app)
-      .delete('/publication')
+      .delete('/publication/5eac583d2e77ea31f0cc655c')
       .set('Authorization', `Bearer ${tokenTestInvalid}`)
 
     expect(response.status).toBe(401)
@@ -78,7 +78,7 @@ describe('Publication', () => {
 
   it('must not access the route with not exists jwt token DELETE/publication', async () => {
     const response = await request(app)
-      .delete('/publication')
+      .delete('/publication/5eac583d2e77ea31f0cc655c')
 
     expect(response.status).toBe(401)
   })
@@ -145,7 +145,7 @@ describe('Publication', () => {
       .put(`/publication/${publication._id}`)
       .set('Authorization', `Bearer ${User.generateToken(user)}`)
       .send({
-        'description': "Publication 1"
+        'description': "Publication Updated 1"
       })
 
       expect(response.status).toBe(401)
@@ -162,6 +162,16 @@ describe('Publication', () => {
       })
 
       expect(response.status).toBe(200)
+  })
+
+  it('should return error 500', async () => {
+    const user = await factory.create('User')
+
+    const response = await request(app)
+      .delete(`/publication/5eac583d2e77ea31f0cc65`)
+      .set('Authorization', `Bearer ${User.generateToken(user)}`)
+
+      expect(response.status).toBe(500)
   })
 
   it('should not delete the publication that does not exist', async () => {
